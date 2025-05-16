@@ -1,20 +1,37 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import {Box , Button , TextField , Typography , Container} from '@mui/material'
-
-
+import axios from 'axios'
 
 export default function Login() {
   const [email , setEmail] = useState<string>('')
   const [password , setPassword] = useState<string>('')
   const router = useRouter() // 페이지 이동을 위한 useRouter 훅 사용
 
-  const handleLogin = (e: React.FormEvent) => { // 로그인 버튼을 눌렀을떄 행동
+  const handleLogin = async (e: React.FormEvent) => { // 로그인 버튼을 눌렀을떄 행동
     e.preventDefault();
-    console.log('Logging in with:', { email, password });
-    router.push('/weather');  
+    try{
+      const response = await axios.post(
+        'http://localhost:3001/auth/login',{
+        email,
+        password
+      },
+      { 
+        withCredentials: true, // 크로스 도메인(프론트엔드-백엔드) 요청시 쿠키나 인증정보를 함께 보냄
+        // 프론트는 axios 요청에 withCredentials: true만 넣으면  쿠키가 브라우저에 저장되고 요청 시 자동 포함됨
+      }
+    
+    )
 
-    // 추가 작성 필요
+      if(response.status === 200) {
+        alert('로그인 성공!')
+        router.push('/search')
+      }
+
+    }catch(error: any){
+      console.error(error)
+      alert('로그인에 문제가 생겼습니다')
+    }
   };
 
   const handleSignupRedirect = () => { // 회원가입 버튼을 눌렀을떄 행동
@@ -57,6 +74,7 @@ export default function Login() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         />
+
         <Button
           type='submit'
           fullWidth
@@ -64,6 +82,7 @@ export default function Login() {
           color='primary'
           sx={{mt:3}}
         > 로그인 </Button>
+
         <Button
         fullWidth
         variant='outlined'

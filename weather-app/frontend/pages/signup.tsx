@@ -59,15 +59,15 @@ export default function Signup() {
   };
 
   const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault() // 폼 제출시 새로고침 방지
+    e.preventDefault(); // 폼 제출시 새로고침 방지
     if (!email) {
       alert('이메일을 입력해주세요');
       return;
     }
 
-    if(!authnum || !isVerified){
-      alert('이메일 인증을 완료해주세요')
-      return
+    if (!authnum || !isVerified) {
+      alert('이메일 인증을 완료해주세요');
+      return;
     }
 
     if (!password || !passwordck) {
@@ -79,17 +79,16 @@ export default function Signup() {
       alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
       return;
     }
-    try{
-    const response = await axios.post('http://localhost:3001/auth/signup', {
-      email: email,
-      password: password,
-    });
+    try {
+      const response = await axios.post('http://localhost:3001/auth/signup', {
+        email: email,
+        password: password,
+      });
 
-    if (response.status === 201) alert("회원가입이 성공적으로 되었습니다")
-    }
-    catch(error: any){
-      console.error(error)
-      alert("회원가입중 에러가 발생했습니다")
+      if (response.status === 201) alert('회원가입이 성공적으로 되었습니다');
+    } catch (error: any) {
+      console.error(error);
+      alert('회원가입중 에러가 발생했습니다');
     }
   };
 
