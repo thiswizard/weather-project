@@ -18,20 +18,21 @@ model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   password  String
+  isVerified  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  searchHistory SearchHistory[]
+  // searchHistory SearchHistory[]
 }
 
 
-model SearchHistory {
-  id Int @id @default(autoincrement())
-  cityname String
-  weather String
-  temperature String
-  createdAt DateTime @default(now())
+// model SearchHistory {
+//   id Int @id @default(autoincrement())
+//   cityname String
+//   weather String
+//   temperature String
+//   createdAt DateTime @default(now())
 
-  userId Int
-  user User @relation(fields: [userId], references: [id])
+//   userId Int
+//   user User @relation(fields: [userId], references: [id])
 
-}
+// }
